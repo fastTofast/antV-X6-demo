@@ -32,7 +32,6 @@
 
 ## demo界面
 
-![demo](https://raw.githubusercontent.com/fastTofast/picture/master/image.png?token=AHA6JXDSQFG5LESCFJ66HFS6S7H46)
 
 ## Project setup
 
