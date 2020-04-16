@@ -30,7 +30,7 @@
 
 ### 缺点：缺少 API 文档，很多方法接口都需要去源码里找
 
-![demo](https://github.com/fastTofast/picture/blob/master/image.png)
+![demo](https://raw.githubusercontent.com/fastTofast/picture/master/image.png?token=AHA6JXDSQFG5LESCFJ66HFS6S7H46)
 
 ## Project setup
 
