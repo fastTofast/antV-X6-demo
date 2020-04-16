@@ -31,8 +31,8 @@
 ### 缺点：缺少 API 文档，很多方法接口都需要去源码里找
 
 ## demo界面
-
-
+[demo地址](https://fasttofast.github.io/antV-X6-demo/)
+![界面](https://github.com/fastTofast/picture/blob/master/image.png)
 ## Project setup
 
 ```
