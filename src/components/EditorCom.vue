@@ -1,5 +1,26 @@
 <template>
   <div class="editor-com">
+    <div class="tool-bar">
+      <i
+        @click="
+          e => {
+            scaleView(e, 'up')
+          }
+        "
+        class="el-icon-zoom-in"
+      ></i>
+      <i
+        @click="
+          e => {
+            scaleView(e, 'down')
+          }
+        "
+        class="el-icon-zoom-out"
+      ></i>
+      <i @click="delNode" class="el-icon-delete"></i>
+      <i @click="undo" class="el-icon-back"></i>
+      <i @click="redo" class="el-icon-right"></i>
+    </div>
     <div class="editor-left">
       <li class="list" v-for="(item, index) in list" :key="index">
         <div
@@ -159,15 +180,14 @@ export default {
     graph.bindKey(
       ['del', 'backspace'],
       e => {
-        graph.deleteCells()
-        this.showAttrConfig = false
+        this.deleteNode()
       },
       'keyup'
     )
     graph.bindKey(
       ['ctrl+z'],
       e => {
-        undoManager.undo()
+        this.undo()
       },
       'keyup'
     )
@@ -240,6 +260,16 @@ export default {
     window.UndoManager = UndoManager
   },
   methods: {
+    delNode () {
+      this.graph.deleteCells()
+      this.showAttrConfig = false
+    },
+    undo () {
+      undoManager.undo()
+    },
+    redo () {
+      undoManager.redo()
+    },
     dragstart (e) {
       let target = e.target
       let data = {
@@ -378,6 +408,28 @@ export default {
 }
 .editor-com {
   display: flex;
+  .tool-bar {
+    height: 40px;
+    width: 300px;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-evenly;
+    border: 1px solid #555555;
+    border-radius: 8px;
+    align-items: center;
+    i {
+      font-size: 18px;
+      color: #555555;
+      font-weight: bold;
+      cursor: pointer;
+      &:hover {
+        color: #4093ff;
+      }
+    }
+  }
   .editor-left {
     flex: 0 0 120px;
     .list {
