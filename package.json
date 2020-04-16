@@ -2,6 +2,7 @@
   "name": "x6",
   "version": "0.1.0",
   "private": true,
+  "homepage":"https://fastTofast.github.io/antV-X6-demo",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
