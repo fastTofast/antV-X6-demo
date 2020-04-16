@@ -180,7 +180,7 @@ export default {
     graph.bindKey(
       ["del", "backspace"],
       e => {
-        this.deleteNode();
+        this.delNode();
       },
       "keyup"
     );
@@ -210,7 +210,6 @@ export default {
       let e = data.e;
       switch (data.eventName) {
         case "mouseDown":
-          console.log("e.state", e.state);
           this.mouseDownMoveFlag = !e.state;
           // 记录点击位置
           this.mouseDownPos = e;
@@ -224,8 +223,8 @@ export default {
           if (this.mouseDownMoveFlag) {
             let vt = this.viewTranslate;
             // 设置偏移位置
-            let tx = e.graphX - this.mouseDownPos.graphX + vt.graphX;
-            let ty = e.graphY - this.mouseDownPos.graphY + vt.graphY;
+            let tx = e.graphX - this.mouseDownPos.graphX + vt.graphX || 0;
+            let ty = e.graphY - this.mouseDownPos.graphY + vt.graphY || 0;
             // 保存view偏移量
             this.viewOffset = { graphX: tx, graphY: ty };
             graph.getView().setTranslate(tx, ty);
@@ -373,6 +372,7 @@ export default {
         selectedCell.style.label = this.nodeFrmData.name;
       }
       graph.refresh(selectedCell);
+      this.showAttrConfig = false;
     }
   }
 };
