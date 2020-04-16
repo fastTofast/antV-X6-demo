@@ -29,7 +29,7 @@
 ### 优点：X6 展示了极大的灵活性与可塑性
 
 ### 缺点：缺少 API 文档，很多方法接口都需要去源码里找
-======
+
 ## demo界面
 
 ![demo](https://raw.githubusercontent.com/fastTofast/picture/master/image.png?token=AHA6JXDSQFG5LESCFJ66HFS6S7H46)
