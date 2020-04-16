@@ -4,7 +4,7 @@
       <i
         @click="
           e => {
-            scaleView(e, 'up')
+            scaleView(e, 'up');
           }
         "
         class="el-icon-zoom-in"
@@ -12,7 +12,7 @@
       <i
         @click="
           e => {
-            scaleView(e, 'down')
+            scaleView(e, 'down');
           }
         "
         class="el-icon-zoom-out"
@@ -67,10 +67,10 @@
 </template>
 
 <script>
-import Modal from './Modal'
-import { Graph, UndoManager } from '@antv/x6'
+import Modal from "./Modal";
+import { Graph, UndoManager } from "@antv/x6";
 export default {
-  data () {
+  data() {
     return {
       showAttrConfig: false,
       nodeFrmData: {},
@@ -78,34 +78,34 @@ export default {
       viewTranslate: { graphX: 0, graphY: 0 },
       list: [
         {
-          name: '节点2',
-          icon: '节点2',
-          classStr: 'outer',
-          nodeType: '2'
+          name: "节点2",
+          icon: "节点2",
+          classStr: "outer",
+          nodeType: "2"
         },
         {
-          name: '节点1',
-          icon: '节点1',
-          nodeType: '1'
+          name: "节点1",
+          icon: "节点1",
+          nodeType: "1"
         },
         {
-          name: '节点3',
-          icon: '节点3',
-          classStr: 'circular',
-          nodeType: '3'
+          name: "节点3",
+          icon: "节点3",
+          classStr: "circular",
+          nodeType: "3"
         }
       ]
-    }
+    };
   },
   components: {
     Modal
   },
-  beforeDestroy () {},
-  mounted () {
-    const container = this.$refs.x6Editor
-    container.addEventListener('dragover', function (event) {
-      event.preventDefault()
-    })
+  beforeDestroy() {},
+  mounted() {
+    const container = this.$refs.x6Editor;
+    container.addEventListener("dragover", function(event) {
+      event.preventDefault();
+    });
     const graph = new Graph(container, {
       keyboard: {
         enabled: true, // 是否开启快捷键系统
@@ -127,8 +127,8 @@ export default {
         enabled: true // 开启连线交互
       },
       edgeStyle: {
-        edge: 'orth',
-        endArrow: 'classic',
+        edge: "orth",
+        endArrow: "classic",
         curved: true,
         fontSize: 16,
         movable: false
@@ -136,9 +136,9 @@ export default {
       guide: {
         enabled: true,
         dashed: true,
-        stroke: '#555555'
+        stroke: "#555555"
       },
-      getAnchors (cell) {
+      getAnchors(cell) {
         if (cell != null && cell.isNode()) {
           // 返回 6 个相对定位的锚点
           return [
@@ -152,9 +152,9 @@ export default {
             [0.25, 1],
             [0.5, 1],
             [0.75, 1]
-          ]
+          ];
         }
-        return null
+        return null;
       }
       // getHtml: cell => {
       //   const wrap = document.createElement('div')
@@ -173,28 +173,28 @@ export default {
       //   wrap.innerHTML = cell.style.html
       //   return wrap
       // }
-    })
-    const undoManager = UndoManager.create(graph)
-    this.undoManager = undoManager
-    window.undoManager = undoManager
+    });
+    const undoManager = UndoManager.create(graph);
+    this.undoManager = undoManager;
+    window.undoManager = undoManager;
     graph.bindKey(
-      ['del', 'backspace'],
+      ["del", "backspace"],
       e => {
-        this.deleteNode()
+        this.deleteNode();
       },
-      'keyup'
-    )
+      "keyup"
+    );
     graph.bindKey(
-      ['ctrl+z'],
+      ["ctrl+z"],
       e => {
-        this.undo()
+        this.undo();
       },
-      'keyup'
-    )
-    graph.bindKey(['ctrl+plus'], e => this.scaleView(e, 'up'))
-    graph.bindKey(['ctrl+-'], e => this.scaleView(e, 'down'))
-    graph.on('selection:changed', data => {
-      console.log('graph up', data)
+      "keyup"
+    );
+    graph.bindKey(["ctrl+plus"], e => this.scaleView(e, "up"));
+    graph.bindKey(["ctrl+-"], e => this.scaleView(e, "down"));
+    graph.on("selection:changed", data => {
+      console.log("graph up", data);
       // if (data.selected.length === 0) {
       //   this.showAttrConfig = false
       // } else {
@@ -205,49 +205,49 @@ export default {
       //     isEdge: cell._isEdge
       //   })
       // }
-    })
-    graph.on('mouseEvent', data => {
-      let e = data.e
+    });
+    graph.on("mouseEvent", data => {
+      let e = data.e;
       switch (data.eventName) {
-        case 'mouseDown':
-          console.log('e.state', e.state)
-          this.mouseDownMoveFlag = !e.state
+        case "mouseDown":
+          console.log("e.state", e.state);
+          this.mouseDownMoveFlag = !e.state;
           // 记录点击位置
-          this.mouseDownPos = e
-          break
-        case 'mouseUp':
-          this.mouseDownMoveFlag = false
+          this.mouseDownPos = e;
+          break;
+        case "mouseUp":
+          this.mouseDownMoveFlag = false;
           // 一次移动结束，记录最终view偏移量
-          this.viewTranslate = Object.assign({}, this.viewOffset)
-          break
-        case 'mouseMove':
+          this.viewTranslate = Object.assign({}, this.viewOffset);
+          break;
+        case "mouseMove":
           if (this.mouseDownMoveFlag) {
-            let vt = this.viewTranslate
+            let vt = this.viewTranslate;
             // 设置偏移位置
-            let tx = e.graphX - this.mouseDownPos.graphX + vt.graphX
-            let ty = e.graphY - this.mouseDownPos.graphY + vt.graphY
+            let tx = e.graphX - this.mouseDownPos.graphX + vt.graphX;
+            let ty = e.graphY - this.mouseDownPos.graphY + vt.graphY;
             // 保存view偏移量
-            this.viewOffset = { graphX: tx, graphY: ty }
-            graph.getView().setTranslate(tx, ty)
+            this.viewOffset = { graphX: tx, graphY: ty };
+            graph.getView().setTranslate(tx, ty);
           }
-          break
+          break;
 
         default:
-          break
+          break;
       }
-    })
-    graph.on('click', ev => {
-      let cell = ev.cell
+    });
+    graph.on("click", ev => {
+      let cell = ev.cell;
       if (cell) {
-        this.showAttrConfig = true
+        this.showAttrConfig = true;
         this.nodeFrmData = Object.assign(cell.data || {}, {
           isNode: cell._isNode,
           isEdge: cell._isEdge
-        })
+        });
       } else {
-        this.showAttrConfig = false
+        this.showAttrConfig = false;
       }
-    })
+    });
     // 创建边
     // const edge = graph.addEdge({
     //   data: { a: 123 },
@@ -255,127 +255,127 @@ export default {
     //   source: hello, // 源节点
     //   target: world // 目标节点
     // })
-    this.graph = graph
-    window.graph = graph
-    window.UndoManager = UndoManager
+    this.graph = graph;
+    window.graph = graph;
+    window.UndoManager = UndoManager;
   },
   methods: {
-    delNode () {
-      this.graph.deleteCells()
-      this.showAttrConfig = false
+    delNode() {
+      this.graph.deleteCells();
+      this.showAttrConfig = false;
     },
-    undo () {
-      undoManager.undo()
+    undo() {
+      undoManager.undo();
     },
-    redo () {
-      undoManager.redo()
+    redo() {
+      undoManager.redo();
     },
-    dragstart (e) {
-      let target = e.target
+    dragstart(e) {
+      let target = e.target;
       let data = {
-        nodeType: target.getAttribute('nodeType'),
+        nodeType: target.getAttribute("nodeType"),
         name: target.innerText
-      }
-      e.dataTransfer.setData('data', JSON.stringify(data))
+      };
+      e.dataTransfer.setData("data", JSON.stringify(data));
     },
-    drop (e) {
-      this.createNode(e)
+    drop(e) {
+      this.createNode(e);
     },
-    createNode (e) {
-      let data = JSON.parse(e.dataTransfer.getData('data'))
-      const container = this.$refs.x6Editor
-      const pos = container.getBoundingClientRect()
-      let nodeOp = {}
+    createNode(e) {
+      let data = JSON.parse(e.dataTransfer.getData("data"));
+      const container = this.$refs.x6Editor;
+      const pos = container.getBoundingClientRect();
+      let nodeOp = {};
       let defaultOp = {
         width: 120,
         height: 60,
         data
-      }
+      };
       switch (data.nodeType) {
-        case '1':
+        case "1":
           nodeOp = Object.assign(defaultOp, {
             strokeOpacity: 1,
-            shape: 'html',
+            shape: "html",
             html: `<div class="default">
                       <span attr="name">${data.name}</div>
                   </div>`
-          })
-          break
-        case '2':
+          });
+          break;
+        case "2":
           nodeOp = Object.assign(defaultOp, {
             label: false,
-            shape: 'html',
+            shape: "html",
             html: `<div class="outer">
                       <span class="inner" attr="name">${data.name}</span>
                   </div>`
-          })
-          break
-        case '3':
+          });
+          break;
+        case "3":
           nodeOp = Object.assign(defaultOp, {
             width: 80,
             height: 80,
             label: false, // 不渲染 label
             // shape: 'ellipse',
-            perimeter: 'ellipse',
+            perimeter: "ellipse",
             strokeOpacity: 0.01,
             // 提供 html 字符串或 HTMLElement 实例
             // label: data.name
-            shape: 'html',
+            shape: "html",
             html: `<div class="circular">
                      <span attr="name">${data.name}</span>
                   </div>`
-          })
-          break
+          });
+          break;
         default:
-          break
+          break;
       }
-      let x = e.x - pos.left
-      let y = e.y - pos.top
+      let x = e.x - pos.left;
+      let y = e.y - pos.top;
       if (x < 0 || y < 0) {
-        return
+        return;
       }
-      let vt = graph.getView().translate
+      let vt = graph.getView().translate;
       let scale = graph
         .getView()
         .getScale()
-        .toFixed(1)
+        .toFixed(1);
       //scale为视图缩放倍数
-      nodeOp.x = x / scale - nodeOp.width / 2 - vt.x
-      nodeOp.y = y / scale - nodeOp.height / 2 - vt.y
-      console.log(nodeOp)
-      const world = this.graph.addNode(nodeOp)
+      nodeOp.x = x / scale - nodeOp.width / 2 - vt.x;
+      nodeOp.y = y / scale - nodeOp.height / 2 - vt.y;
+      console.log(nodeOp);
+      const world = this.graph.addNode(nodeOp);
     },
-    scaleView (e, flag) {
-      e.preventDefault()
-      if (flag === 'up') {
-        this.initScale += 0.1
+    scaleView(e, flag) {
+      e.preventDefault();
+      if (flag === "up") {
+        this.initScale += 0.1;
       } else {
-        this.initScale -= 0.1
+        this.initScale -= 0.1;
       }
-      graph.getView().setScale(this.initScale)
+      graph.getView().setScale(this.initScale);
     },
-    close () {
-      this.showAttrConfig = false
+    close() {
+      this.showAttrConfig = false;
     },
-    confirm () {
-      let graph = this.graph
-      let selectedCell = graph.getSelectedCell()
-      selectedCell.setData(this.nodeFrmData)
-      let style = selectedCell.style
-      if (selectedCell.style.shape === 'html') {
-        let html = selectedCell.style.html
-        let temDom = document.createElement('div')
-        temDom.innerHTML = style.html
-        temDom.querySelector('[attr="name"]').innerText = this.nodeFrmData.name
-        style.html = temDom.innerHTML
-        selectedCell.setStyle(style)
+    confirm() {
+      let graph = this.graph;
+      let selectedCell = graph.getSelectedCell();
+      selectedCell.setData(this.nodeFrmData);
+      let style = selectedCell.style;
+      if (selectedCell.style.shape === "html") {
+        let html = selectedCell.style.html;
+        let temDom = document.createElement("div");
+        temDom.innerHTML = style.html;
+        temDom.querySelector('[attr="name"]').innerText = this.nodeFrmData.name;
+        style.html = temDom.innerHTML;
+        selectedCell.setStyle(style);
       } else {
-        selectedCell.style.label = this.nodeFrmData.name
+        selectedCell.style.label = this.nodeFrmData.name;
       }
-      graph.refresh(selectedCell)
+      graph.refresh(selectedCell);
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -408,6 +408,8 @@ export default {
 }
 .editor-com {
   display: flex;
+  margin: 0 10px;
+  border: 1px solid #555555;
   .tool-bar {
     height: 40px;
     width: 300px;
@@ -467,6 +469,17 @@ export default {
       }
     }
   }
+  @media screen and(min-width: 1366px) {
+    .editor-section {
+      height: 600px;
+    }
+  }
+  @media screen and(min-width: 1902px) {
+    .editor-section {
+      height: 800px;
+    }
+  }
+
   // .mini-map {
   //   position: absolute;
   //   right: 10px;
